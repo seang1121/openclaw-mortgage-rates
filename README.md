@@ -12,7 +12,12 @@
 
 ## What You Get
 
-Every morning, your OpenClaw agent scrapes 10 lender websites using stealth browser automation, compares their rates against Freddie Mac and Mortgage News Daily national averages, and posts a ranked report to your Discord.
+Every morning, your OpenClaw agent scrapes 10 lender websites using a two-tier approach:
+
+- **Tier 1 — Patchright (headless):** 8 lenders scraped in parallel via stealth Chromium
+- **Tier 2 — OpenClaw Browser (real Chrome):** Chase and Rocket Mortgage require a persistent browser session with cookies — the OpenClaw browser profile handles these automatically
+
+All rates are combined, ranked lowest to highest against Freddie Mac and Mortgage News Daily national averages, and posted to your Discord.
 
 ```
 MORTGAGE RATES — Mar 26, 2026  |  9/9 lenders reporting
@@ -48,18 +53,19 @@ MORTGAGE RATES — Mar 26, 2026  |  9/9 lenders reporting
 
 ## Lenders Tracked
 
-| # | Lender | Type |
-|---|--------|------|
-| 1 | Bank of America | Big 4 Bank |
-| 2 | Wells Fargo | Big 4 Bank |
-| 3 | Chase | Big 4 Bank |
-| 4 | Citi | Big 4 Bank |
-| 5 | Navy Federal CU | Credit Union |
-| 6 | SoFi | Online Lender |
-| 7 | US Bank | National Bank |
-| 8 | Guaranteed Rate | Online Lender |
-| 9 | Truist | National Bank |
-| 10 | Mr. Cooper | Largest Servicer |
+| # | Lender | Type | How |
+|---|--------|------|-----|
+| 1 | Bank of America | Big 4 Bank | Patchright |
+| 2 | Wells Fargo | Big 4 Bank | Patchright |
+| 3 | **Chase** | Big 4 Bank | **OpenClaw Browser** |
+| 4 | Citi | Big 4 Bank | Patchright |
+| 5 | Navy Federal CU | Credit Union | Patchright |
+| 6 | SoFi | Online Lender | Patchright |
+| 7 | US Bank | National Bank | Patchright |
+| 8 | Guaranteed Rate | Online Lender | Patchright |
+| 9 | Truist | National Bank | Patchright |
+| 10 | Mr. Cooper | Largest Servicer | Patchright |
+| 11 | **Rocket Mortgage** | Online Lender | **OpenClaw Browser** |
 
 **Benchmarks:** Freddie Mac PMMS (weekly national average) + Mortgage News Daily (daily index)
 
@@ -75,11 +81,13 @@ Replace `YOUR_ZIP` with your ZIP code (e.g. `90210`). That's it. Two minutes and
 
 ### What the installer does:
 
-1. Clones this repo into `~/.openclaw/workspace/mortgage-rates/`
-2. Creates a Python venv and installs patchright + stealth Chromium
-3. Sets your ZIP code
-4. Registers a daily 8:00 AM EST cron job in OpenClaw
-5. Report gets delivered to your Discord channel
+1. Checks that OpenClaw gateway is running
+2. **Checks for OpenClaw browser** — if not set up, walks you through `openclaw browser setup` (required for Chase + Rocket Mortgage)
+3. Clones this repo into `~/.openclaw/workspace/mortgage-rates/`
+4. Creates a Python venv and installs patchright + stealth Chromium
+5. Sets your ZIP code
+6. Registers a daily 8:00 AM EST cron job in OpenClaw
+7. Report gets delivered to your Discord channel
 
 ---
 
@@ -168,31 +176,37 @@ Add this to your `~/.openclaw/cron/jobs.json` in the `jobs` array:
 ```
          OpenClaw Cron (8:00 AM EST)
                     |
-         mortgage_rate_report.py
-                    |
-      asyncio.gather() — parallel batches of 4
-                    |
-    +---------------+---------------+
-    |               |               |
- patchright      patchright       urllib
- (stealth)      (stealth)      (direct API)
-    |               |               |
- BofA, WF,       SoFi, USB,    Freddie Mac
- Chase, Citi,    Guaranteed,       MND
- Navy Fed        Truist, Cooper
-    |               |               |
-    +-------+-------+-------+------+
-            |
-    Extract rates via regex
-    Rank lowest to highest
-    Calculate day-over-day
-            |
-    Deliver to Discord
+         +---------+---------+
+         |                   |
+   TIER 1: Script      TIER 2: OpenClaw Browser
+   mortgage_rate_report.py   (real Chrome profile)
+         |                   |
+   asyncio.gather()    Chase — ZIP gate, click
+   batches of 4        "See rates", extract
+         |             full product menu
+   +-----+-----+            |
+   |     |     |       Rocket Mortgage —
+patchright  patchright urllib   wait for JS render,
+(stealth) (stealth) (API)   extract all products
+   |     |     |            |
+ BofA   SoFi  Freddie      |
+ WF     USB   Mac          |
+ Citi   Guar  MND          |
+ Navy   Truist              |
+ Fed    Cooper              |
+   |     |     |            |
+   +-----+-----+-----+-----+
+                |
+     Combine all rates
+     Rank lowest to highest
+     Calculate day-over-day
+                |
+     Deliver to Discord
 ```
 
-All 10 lenders are scraped using **patchright** — a stealth-patched Chromium that bypasses bot detection, Cloudflare challenges, and JavaScript-rendered SPAs. Each lender gets its own browser context.
+**Tier 1 — Patchright (8 lenders + 2 benchmarks):** Stealth-patched headless Chromium that bypasses bot detection, Cloudflare, and JS-rendered SPAs. Runs in parallel batches of 4. Freddie Mac and MND are fetched via direct API (no browser).
 
-Freddie Mac and Mortgage News Daily are fetched via direct API/HTML — no browser needed.
+**Tier 2 — OpenClaw Browser (Chase + Rocket):** These lenders require a persistent Chrome session with cookies and a real browser profile. The OpenClaw browser (`~/.openclaw/browser/openclaw/`) handles this — it opens the page, fills the ZIP code, clicks through, and extracts the full product menu (30yr, 15yr, FHA, Jumbo, VA, ARM).
 
 90 days of rate history stored locally at `data/mortgage_rates_history.json` for trend tracking.
 
@@ -201,9 +215,12 @@ Freddie Mac and Mortgage News Daily are fetched via direct API/HTML — no brows
 ## Requirements
 
 - [OpenClaw](https://openclaw.ai) running with gateway active
+- **OpenClaw Browser** set up (`openclaw browser setup`) — required for Chase + Rocket Mortgage
 - Python 3.10+
 - ~200MB disk space (Chromium browser)
 - Internet access
+
+> **Why do I need the OpenClaw browser?** Chase and Rocket Mortgage use aggressive anti-bot protection that blocks even stealth headless browsers. They need a real Chrome profile with persistent cookies and session state. The OpenClaw browser provides this — it's a managed Chrome instance that your agent can control like a real user.
 
 ---
 
