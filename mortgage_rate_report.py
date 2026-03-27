@@ -17,6 +17,7 @@ Usage:
 """
 
 import argparse
+import sys
 import asyncio
 import json
 import os
@@ -29,7 +30,7 @@ DATA_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.json")
 HISTORY_FILE = os.path.join(DATA_DIR, "mortgage_rates_history.json")
 
-ZIP_CODE = "32224"
+ZIP_CODE = None  # Set via config.json or --zip flag
 WAIT_MS = 10000
 MAX_RETRIES = 3
 BATCH_SIZE = 4
@@ -54,7 +55,7 @@ BROWSER_SOURCES = [
 # ─── CONFIG ──────────────────────────────────────────────────────────────────
 
 def load_zip_code(cli_zip=None):
-    """Resolve ZIP: --zip flag > config.json > default 32224."""
+    """Resolve ZIP: --zip flag > config.json. No default — user must configure."""
     if cli_zip:
         return cli_zip
     if os.path.exists(CONFIG_FILE):
@@ -63,7 +64,10 @@ def load_zip_code(cli_zip=None):
         z = cfg.get("zip_code", "")
         if z and z != "YOUR_ZIP":
             return z
-    return "32224"
+    print("ERROR: No ZIP code configured.")
+    print("Set your ZIP in config.json: {\"zip_code\": \"YOUR_ZIP\"}")
+    print("Or pass it directly: python3 mortgage_rate_report.py --zip 90210")
+    sys.exit(1)
 
 
 # ─── RATE EXTRACTION ─────────────────────────────────────────────────────────

@@ -99,19 +99,20 @@ pip install -q -r requirements.txt
 python -m patchright install chromium 2>/dev/null
 deactivate 2>/dev/null || true
 
-# Step 5: Configure ZIP code
+# Step 5: Configure ZIP code (REQUIRED)
 if [ -z "$ZIP" ]; then
     echo ""
     read -p "  Enter your ZIP code (e.g. 90210): " ZIP
 fi
 
-if [ -n "$ZIP" ]; then
-    echo "{\"zip_code\": \"$ZIP\"}" > "$INSTALL_DIR/config.json"
-    echo "  [5/6] ZIP code set to $ZIP"
-else
-    ZIP="32224"
-    echo "  [5/6] No ZIP code set — using default ($ZIP)"
+if [ -z "$ZIP" ]; then
+    echo "  ❌ ERROR: ZIP code is required."
+    echo "  Re-run with: bash install.sh YOUR_ZIP"
+    exit 1
 fi
+
+echo "{\"zip_code\": \"$ZIP\"}" > "$INSTALL_DIR/config.json"
+echo "  [5/6] ZIP code set to $ZIP"
 
 # Step 6: Register OpenClaw cron job
 echo "  [6/6] Registering cron job..."

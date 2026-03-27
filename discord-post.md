@@ -45,7 +45,7 @@ Rates ranked lowest to highest. Day-over-day tracking. Chase full product menu (
 📈 Avg: 5.632% | vs yesterday: ▲ 0.084%
 
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-## 📊 CHASE FULL MENU (ZIP 32224)
+## 📊 CHASE FULL MENU (ZIP YOUR_ZIP)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ▸ 30yr Fixed — 6.490% (6.578% APR)
 ▸ 15yr Fixed — 5.500% (5.667% APR)
