@@ -13,7 +13,7 @@
 
 set -e
 
-REPO_URL="https://github.com/seang1121/openclaw-mortgage-rates.git"
+REPO_URL="https://github.com/seang1121/OpenClaw-Mortgage-Interest-Rates-Report.git"
 INSTALL_DIR="$HOME/.openclaw/workspace/mortgage-rates"
 CRON_FILE="$HOME/.openclaw/cron/jobs.json"
 BROWSER_DIR="$HOME/.openclaw/browser/openclaw"

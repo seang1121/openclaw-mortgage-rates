@@ -43,7 +43,7 @@ Rates ranked lowest to highest. Day-over-day tracking. Chase full product menu (
 
 🦞 **One-command install:**
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/seang1121/openclaw-mortgage-rates/main/install.sh) YOUR_ZIP
+bash <(curl -s https://raw.githubusercontent.com/seang1121/OpenClaw-Mortgage-Interest-Rates-Report/main/install.sh) YOUR_ZIP
 ```
 Replace `YOUR_ZIP` with your ZIP code. That's it. Takes 2 minutes.
 
@@ -59,6 +59,6 @@ Replace `YOUR_ZIP` with your ZIP code. That's it. Takes 2 minutes.
 
 > **Why the OpenClaw browser?** Chase and Rocket use aggressive anti-bot that blocks even stealth headless browsers. The OpenClaw browser is a real Chrome profile your agent controls — it gets through where headless can't.
 
-📎 Full docs + source: <https://github.com/seang1121/openclaw-mortgage-rates>
+📎 Full docs + source: <https://github.com/seang1121/OpenClaw-Mortgage-Interest-Rates-Report>
 
 ---

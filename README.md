@@ -74,7 +74,7 @@ MORTGAGE RATES — Mar 26, 2026  |  9/9 lenders reporting
 ## 🦞 One-Command Install
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/seang1121/openclaw-mortgage-rates/main/install.sh) YOUR_ZIP
+bash <(curl -s https://raw.githubusercontent.com/seang1121/OpenClaw-Mortgage-Interest-Rates-Report/main/install.sh) YOUR_ZIP
 ```
 
 Replace `YOUR_ZIP` with your ZIP code (e.g. `90210`). That's it. Two minutes and you're done.
@@ -95,7 +95,7 @@ Replace `YOUR_ZIP` with your ZIP code (e.g. `90210`). That's it. Two minutes and
 
 ```bash
 # Clone into your OpenClaw workspace
-git clone https://github.com/seang1121/openclaw-mortgage-rates.git ~/.openclaw/workspace/mortgage-rates
+git clone https://github.com/seang1121/OpenClaw-Mortgage-Interest-Rates-Report.git ~/.openclaw/workspace/mortgage-rates
 cd ~/.openclaw/workspace/mortgage-rates
 
 # Install dependencies
