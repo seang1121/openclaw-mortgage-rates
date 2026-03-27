@@ -19,35 +19,62 @@ Every morning, your OpenClaw agent scrapes 10 lender websites using a two-tier a
 
 All rates are combined, ranked lowest to highest against Freddie Mac and Mortgage News Daily national averages, and posted to your Discord.
 
-```
-MORTGAGE RATES — Mar 26, 2026  |  9/9 lenders reporting
+📊 **MORTGAGE RATES — Mar 26, 2026** | 11/11 lenders reporting
 
-30-YEAR FIXED
-  Navy Federal CU — 5.375% (6.875% APR)
-  Wells Fargo — 5.875% (6.082% APR)
-  Citi — 6.125% (6.259% APR)
-  Mr. Cooper — 6.250% (6.550% APR)
-  Guaranteed Rate — 6.325% (6.639% APR)
-  SoFi — 6.351% (5.625% APR)
-  US Bank — 6.375% (6.529% APR)
-  Truist — 6.375% (6.565% APR)
-  Freddie Mac natl avg — 6.380%  (benchmark)
-  MND Index — 6.620%  (benchmark)
-  Bank of America — 6.625% (6.846% APR)
-  Avg: 6.186% | vs yesterday: up 0.086%
+---
 
-15-YEAR FIXED
-  Navy Federal CU — 5.375% (6.875% APR)
-  US Bank — 5.490% (5.774% APR)
-  Truist — 5.600% (5.892% APR)
-  Guaranteed Rate — 5.625% (6.096% APR)
-  Freddie Mac natl avg — 5.750%  (benchmark)
-  Bank of America — 5.750% (6.134% APR)
-  Wells Fargo — 5.750% (6.000% APR)
-  SoFi — 5.831% (5.990% APR)
-  MND Index — 6.620%  (benchmark)
-  Avg: 5.632% | vs yesterday: up 0.084%
-```
+### 📊 30-YEAR FIXED
+
+| | Lender | Rate | APR | |
+|---|--------|------|-----|---|
+| 🏆 | **Navy Federal CU** | **5.375%** | 6.875% | **BEST** |
+| 🟢 | Wells Fargo | 5.875% | 6.082% | |
+| 🟢 | Citi | 6.125% | 6.259% | |
+| | *Freddie Mac natl avg* | *6.380%* | | *benchmark* |
+| 🟡 | Mr. Cooper | 6.250% | 6.550% | |
+| 🟡 | Guaranteed Rate | 6.325% | 6.639% | |
+| 🟡 | SoFi | 6.351% | 5.625% | |
+| 🟡 | US Bank | 6.375% | 6.529% | |
+| 🟡 | Truist | 6.375% | 6.565% | |
+| | *MND Index* | *6.620%* | | *benchmark* |
+| 🔴 | Bank of America | 6.625% | 6.846% | |
+| 🔴 | Chase | 6.490% | 6.578% | |
+| 🔴 | **Rocket Mortgage** | **6.750%** | 6.890% | **WORST** |
+
+> 📈 Avg: 6.186% | vs yesterday: ▲ 0.086%
+
+---
+
+### 📊 15-YEAR FIXED
+
+| | Lender | Rate | APR | |
+|---|--------|------|-----|---|
+| 🏆 | **Navy Federal CU** | **5.375%** | 6.875% | **BEST** |
+| 🟢 | US Bank | 5.490% | 5.774% | |
+| 🟢 | Truist | 5.600% | 5.892% | |
+| 🟡 | Guaranteed Rate | 5.625% | 6.096% | |
+| | *Freddie Mac natl avg* | *5.750%* | | *benchmark* |
+| 🟡 | Bank of America | 5.750% | 6.134% | |
+| 🟡 | Wells Fargo | 5.750% | 6.000% | |
+| 🟡 | SoFi | 5.831% | 5.990% | |
+| 🔴 | Chase | 5.875% | 6.012% | |
+| 🔴 | **Rocket Mortgage** | **6.125%** | 6.340% | **WORST** |
+
+> 📈 Avg: 5.632% | vs yesterday: ▲ 0.084%
+
+---
+
+### 📊 CHASE FULL MENU (YOUR ZIP)
+
+| Product | Rate | APR |
+|---------|------|-----|
+| 30yr Fixed | 6.490% | 6.578% |
+| 15yr Fixed | 5.500% | 5.667% |
+| 30yr FHA Fixed | 6.000% | 6.780% |
+| 30yr Jumbo Fixed | 5.990% | 6.082% |
+| 7/6 Jumbo ARM | 5.375% | 5.980% |
+
+> 🟢 below average | 🟡 near average | 🔴 above average — **instantly see who's charging you the most**
 
 ---
 
